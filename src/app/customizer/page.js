@@ -18,7 +18,6 @@ import CustomButton from "@/components/CustomButton";
 import FilePicker from "@/components/FilePicker";
 import Tab from "@/components/Tab";
 import {useRouter} from "next/navigation";
-import CanvasModel from "@/canvas";
 
 const CustomizerPage = () => {
     const snap = useSnapshot(state);
@@ -39,12 +38,56 @@ const CustomizerPage = () => {
             case "colorpicker":
                 return <ColorPicker/>
             case "filepicker":
-                return <FilePicker/>
+                return <FilePicker
+                    file={file}
+                    setFile={setFile}
+                    readFile={readFile}
+                />
             case "aipicker":
                 return <AiPicker/>
             default:
                 return null;
         }
+    }
+
+    const handleDecals = (type, result) => {
+        const decalType = DecalTypes[type];
+
+        state[decalType.stateProperty] = result;
+
+        if (!activeFilterTab[decalType.filterTab]) {
+            handleActiveFilterTab(decalType.filterTab);
+        }
+    }
+
+    const handleActiveFilterTab = (tabName) => {
+        switch (tabName) {
+            case "logoShirt":
+                state.isLogoTexture = !activeFilterTab[tabName];
+                break;
+            case "stylishShirt":
+                state.isFullTexture = !activeFilterTab[tabName];
+                break;
+            default:
+                state.isLogoTexture = true;
+                state.isFullTexture = false;
+                break;
+        }
+
+        setActiveFilterTab((prevState) => {
+            return {
+                ...prevState,
+                [tabName]: !prevState[tabName],
+            }
+        })
+    }
+
+    const readFile = (type) => {
+        reader(file)
+            .then((result) => {
+                handleDecals(type, result);
+                setActiveEditorTab("");
+            })
     }
 
     const router = useRouter();
@@ -99,9 +142,8 @@ const CustomizerPage = () => {
                                 key={tab.name}
                                 tab={tab}
                                 isFilterTab
-                                isActiveTab={""}
-                                handleClick={() => {
-                                }}
+                                isActiveTab={activeFilterTab[tab.name]}
+                                handleClick={() => handleActiveFilterTab(tab.name)}
                             />
                         ))}
                     </motion.div>
