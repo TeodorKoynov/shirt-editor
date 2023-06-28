@@ -23,6 +23,30 @@ import CanvasModel from "@/canvas";
 const CustomizerPage = () => {
     const snap = useSnapshot(state);
 
+    const [file, setFile] = useState('');
+    const [prompt, setPrompt] = useState('');
+    const [generatingImg, setGeneratingImg] = useState(false);
+
+    const [activeEditorTab, setActiveEditorTab] = useState('');
+    const [activeFilterTab, setActiveFilterTab] = useState({
+        logoShirt: true,
+        stylishShirt: false,
+    })
+
+    // show tab content depending on the active tap
+    const generateTabContent = () => {
+        switch (activeEditorTab) {
+            case "colorpicker":
+                return <ColorPicker/>
+            case "filepicker":
+                return <FilePicker/>
+            case "aipicker":
+                return <AiPicker/>
+            default:
+                return null;
+        }
+    }
+
     const router = useRouter();
 
     return (
@@ -40,9 +64,11 @@ const CustomizerPage = () => {
                                     <Tab
                                         key={tab.name}
                                         tab={tab}
-                                        handleClick={() => {}}
+                                        handleClick={() => setActiveEditorTab(tab.name)}
                                     />
                                 ))}
+
+                                {generateTabContent()}
                             </div>
                         </div>
                     </motion.div>
@@ -73,8 +99,9 @@ const CustomizerPage = () => {
                                 key={tab.name}
                                 tab={tab}
                                 isFilterTab
-                                isActiveTab={"" }
-                                handleClick={() => {}}
+                                isActiveTab={""}
+                                handleClick={() => {
+                                }}
                             />
                         ))}
                     </motion.div>
