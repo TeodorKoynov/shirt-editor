@@ -9,7 +9,11 @@ export const metadata = {
 export default function RootLayout({children}) {
     return (
         <html lang="en">
-        <body>{children}</body>
+        <body>
+        <main className={"app transition-all ease-in"}>
+            {children}
+        </main>
+        </body>
         </html>
     )
 }
