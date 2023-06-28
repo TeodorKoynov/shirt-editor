@@ -17,9 +17,10 @@ import ColorPicker from "@/components/ColorPicker";
 import CustomButton from "@/components/CustomButton";
 import FilePicker from "@/components/FilePicker";
 import Tab from "@/components/Tab";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 const CustomizerPage = () => {
+    const pathname = usePathname();
     const snap = useSnapshot(state);
 
     const [file, setFile] = useState('');
@@ -31,6 +32,13 @@ const CustomizerPage = () => {
         logoShirt: true,
         stylishShirt: false,
     })
+
+    useEffect(() => {
+        console.log("Path name", pathname)
+        if (pathname === '/customizer') {
+            state.intro = false;
+        }
+    }, [])
 
     // show tab content depending on the active tap
     const generateTabContent = () => {
@@ -44,10 +52,48 @@ const CustomizerPage = () => {
                     readFile={readFile}
                 />
             case "aipicker":
-                return <AiPicker/>
+                return <AiPicker
+                    prompt={prompt}
+                    setPrompt={setPrompt}
+                    generatingImg={generatingImg}
+                    handleSubmit={handleSubmit}
+                />
             default:
                 return null;
         }
+    }
+
+    const handleSubmit = async (type) => {
+        if (!prompt) {
+            return alert("Please eneter a prompt!")
+        }
+
+        return alert("AI prompt is disabled")
+
+        // try {
+        //     setGeneratingImg(true);
+        //
+        //     const response = await fetch('/api/openai', {
+        //         method: 'POST',
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             prompt: prompt,
+        //         })
+        //     });
+        //
+        //     const data = await response.json();
+        //     console.log("Data", data)
+        //
+        //     handleDecals(type, `data:image/png;base64,${data.photo}`);
+        //
+        // } catch (error) {
+        //     alert(error);
+        // } finally {
+        //     setGeneratingImg(false);
+        //     setActiveEditorTab("")
+        // }
     }
 
     const handleDecals = (type, result) => {
