@@ -18,6 +18,7 @@ import CustomButton from "@/components/CustomButton";
 import FilePicker from "@/components/FilePicker";
 import Tab from "@/components/Tab";
 import {useRouter} from "next/navigation";
+import CanvasModel from "@/canvas";
 
 const CustomizerPage = () => {
     const snap = useSnapshot(state);

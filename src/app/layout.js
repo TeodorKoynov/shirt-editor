@@ -1,4 +1,7 @@
+"use client"
+
 import './globals.css'
+import CanvasModel from "@/canvas";
 
 
 export const metadata = {
@@ -12,6 +15,7 @@ export default function RootLayout({children}) {
         <body>
         <main className={"app transition-all ease-in"}>
             {children}
+            <CanvasModel/>
         </main>
         </body>
         </html>
