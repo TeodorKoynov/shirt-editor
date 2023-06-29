@@ -1,8 +1,6 @@
-"use client"
-
 import './globals.css'
-import CanvasModel from "@/canvas";
 
+import CanvasModel from "@/canvas";
 
 export const metadata = {
     title: 'Create Next App',
