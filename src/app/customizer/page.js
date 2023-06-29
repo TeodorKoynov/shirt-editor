@@ -68,32 +68,32 @@ const CustomizerPage = () => {
             return alert("Please eneter a prompt!")
         }
 
-        return alert("AI prompt is disabled")
+        // return alert("AI prompt is Disabled")
 
-        // try {
-        //     setGeneratingImg(true);
-        //
-        //     const response = await fetch('/api/openai', {
-        //         method: 'POST',
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //             prompt: prompt,
-        //         })
-        //     });
-        //
-        //     const data = await response.json();
-        //     console.log("Data", data)
-        //
-        //     handleDecals(type, `data:image/png;base64,${data.photo}`);
-        //
-        // } catch (error) {
-        //     alert(error);
-        // } finally {
-        //     setGeneratingImg(false);
-        //     setActiveEditorTab("")
-        // }
+        try {
+            setGeneratingImg(true);
+
+            const response = await fetch('/api/openai', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    prompt: prompt,
+                })
+            });
+
+            const data = await response.json();
+            console.log("Data", data)
+
+            handleDecals(type, `data:image/png;base64,${data.photo}`);
+
+        } catch (error) {
+            alert(error);
+        } finally {
+            setGeneratingImg(false);
+            setActiveEditorTab("")
+        }
     }
 
     const handleDecals = (type, result) => {
